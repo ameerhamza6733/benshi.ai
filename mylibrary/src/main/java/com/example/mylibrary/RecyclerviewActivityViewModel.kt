@@ -24,6 +24,10 @@ class RecyclerviewActivityViewModel : ViewModel() {
     private val _mutableAuthorLiveData:MutableLiveData<Resorces<UserReponse>> = MutableLiveData()
     val userDetailResponseLiveData:LiveData<Resorces<UserReponse>> =_mutableAuthorLiveData
 
+   private val _mutablePostImageLiveData:MutableLiveData<Resorces<PostImageRequest>> = MutableLiveData()
+    val postImageResponseLiveData:LiveData<Resorces<PostImageRequest>> =_mutablePostImageLiveData
+
+
     private val _mutablePostLiveData:MutableLiveData<Resorces<ArrayList<PostUi>>> = MutableLiveData()
     val postListLiveData:LiveData<Resorces<ArrayList<PostUi>>> = _mutablePostLiveData
 
@@ -46,32 +50,41 @@ class RecyclerviewActivityViewModel : ViewModel() {
         if (itemPosition>=0){
             if (postListUiData[itemPosition].author==null){
                 getUserDetail(UserDetailRequest(userId = postListUiData[itemPosition].userId).also { it.currentPostionInRecylerView=itemPosition })
-                getPostComments(CommentPostRequest(postListUiData[itemPosition].id).also { it.currentPostionInRecylerView=itemPosition })
+                 }
+            if (postListUiData[itemPosition].postImageUrl==null){
                 getImage(PostImageRequest(postListUiData[itemPosition].title).also { it.currentPostionInRecylerView=itemPosition })
+
             }
+
         }
     }
 
-    fun getImage(postImageRequest: PostImageRequest){
-        viewModelScope.launch (Dispatchers.IO){
-            val digest: MessageDigest = MessageDigest.getInstance("SHA-256")
-            val encodedhash: ByteArray = digest.digest(
-                postImageRequest.postTitle.toByteArray()
-            )
-           postRepo.getPostImage(String(encodedhash))
+   private fun getImage(postImageRequest: PostImageRequest){
+        viewModelScope.launch (Dispatchers.Default){
+
+            val digest=Util.toHexString(Util.getSHA(postImageRequest.postTitle.replace(" ","")))
+          val imageUrl= postRepo.getPostImage(digest.toString())
+            Log("image url ${imageUrl}")
+            val oldPost= postListUiData.get(postImageRequest.currentPostionInRecylerView)
+            oldPost.postImageUrl=imageUrl
+            postListUiData.set(postImageRequest.currentPostionInRecylerView,oldPost)
+
+            _mutablePostImageLiveData.postValue(Resorces.Success(postImageRequest))
         }
     }
 
-    fun getPostComments(commentPostRequest: CommentPostRequest){
+  private  fun getPostComments(commentPostRequest: CommentPostRequest){
         viewModelScope.launch (Dispatchers.IO){
             val reponse=postRepo.getComment(commentPostRequest)
         }
     }
 
-    fun getUserDetail(userDetailRequest: UserDetailRequest){
+   private fun getUserDetail(userDetailRequest: UserDetailRequest){
 
            if (userDetailHasMap.containsKey(userDetailRequest.userId)){
                //we already have user detail
+               _mutableAuthorLiveData.postValue(Resorces.Success(userDetailHasMap[userDetailRequest.userId]!!))
+
            }else{
                viewModelScope.launch (Dispatchers.IO){
 

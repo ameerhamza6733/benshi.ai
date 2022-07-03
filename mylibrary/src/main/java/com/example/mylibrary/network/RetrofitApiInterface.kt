@@ -17,6 +17,5 @@ interface RetrofitApiInterface {
     @GET("comments/{post_id}")
     suspend fun getPostComments(@Path("post_id")post_id:Int):Response<Any>
 
-    @GET
-    suspend fun getPostImage(@Url connectionUrl:String):Response<Any>
+
 }

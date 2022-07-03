@@ -18,7 +18,7 @@ class PostRecyclerviewAdapter(val viewModel: RecyclerviewActivityViewModel) :
             }
             binding.postTitle.text=post.title
             binding.postDescription.text=post.body
-            Log.d(TAG,"auther name ${post.author?.username}")
+            Glide.with(binding.postImage).asBitmap().load(post.postImageUrl).into(binding.postImage)
 
         }
     }
@@ -35,7 +35,7 @@ class PostRecyclerviewAdapter(val viewModel: RecyclerviewActivityViewModel) :
     override fun onBindViewHolder(holder: PostRecyclerviewAdapter.ViewHolder, position: Int) {
         holder.bind()
 
-
+        viewModel.onRecyclerViewStateIdeal(holder.adapterPosition)
     }
 
     override fun getItemCount(): Int {

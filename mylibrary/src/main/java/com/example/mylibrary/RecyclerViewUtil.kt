@@ -11,10 +11,10 @@ fun RecyclerView.scrollLis(layoutManager: LinearLayoutManager,viewModel: Recycle
                 // Do something
             } else if (newState ==  RecyclerView.SCROLL_STATE_IDLE) {
                 // Do something
-                viewModel.onRecyclerViewStateIdeal(layoutManager.findFirstCompletelyVisibleItemPosition())
-                viewModel.onRecyclerViewStateIdeal(layoutManager.findLastCompletelyVisibleItemPosition())
-                viewModel.onRecyclerViewStateIdeal(layoutManager.findFirstVisibleItemPosition())
-                viewModel.onRecyclerViewStateIdeal(layoutManager.findLastVisibleItemPosition())
+//                viewModel.onRecyclerViewStateIdeal(layoutManager.findFirstCompletelyVisibleItemPosition())
+//                viewModel.onRecyclerViewStateIdeal(layoutManager.findLastCompletelyVisibleItemPosition())
+//                viewModel.onRecyclerViewStateIdeal(layoutManager.findFirstVisibleItemPosition())
+//                viewModel.onRecyclerViewStateIdeal(layoutManager.findLastVisibleItemPosition())
 
             } else {
                 // Do something

@@ -6,6 +6,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mylibrary.databinding.ActivityRecylerViewBinding
+import kotlin.math.log
 
 class RecyclerViewActivity : AppCompatActivity() {
 
@@ -52,11 +53,22 @@ class RecyclerViewActivity : AppCompatActivity() {
             }
         }
 
+        viewModel.postImageResponseLiveData.observe(this,{
+            when(it){
+                is Resorces.Success->{
+                    postApter?.notifyItemChanged(it.data.currentPostionInRecylerView)
+                }
+            }
+        })
+
         viewModel.userDetailResponseLiveData.observe(this,{
             when(it){
                is Resorces.Success->{
                    postApter!!.notifyItemChanged(it.data.currentPositionInRecyclerView)
                }
+                is Resorces.Error->{
+                    Log("error while loading user detail ${it.errorMessage.toString()}")
+                }
             }
         })
     }
