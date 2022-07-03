@@ -2,6 +2,7 @@ package com.example.mylibrary
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mylibrary.viewModel.RecyclerviewActivityViewModel
 
 fun RecyclerView.scrollLis(layoutManager: LinearLayoutManager,viewModel: RecyclerviewActivityViewModel){
     this.addOnScrollListener(object :RecyclerView.OnScrollListener(){

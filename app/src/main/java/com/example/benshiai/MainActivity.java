@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.mylibrary.RecyclerViewActivity;
+import com.example.mylibrary.activitys.RecyclerViewActivity;
 
 public class MainActivity extends AppCompatActivity {
 

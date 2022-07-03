@@ -1,10 +1,13 @@
-package com.example.mylibrary
+package com.example.mylibrary.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.example.UserReponse
+import com.example.mylibrary.Log
+import com.example.mylibrary.Resorces
+import com.example.mylibrary.Util
 import com.example.mylibrary.model.request.CommentPostRequest
 import com.example.mylibrary.model.request.PostImageRequest
 import com.example.mylibrary.model.request.UserDetailRequest
@@ -13,8 +16,6 @@ import com.example.mylibrary.repository.PostRepo
 import com.example.mylibrary.repository.UserRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.nio.charset.StandardCharsets
-import java.security.MessageDigest
 
 class RecyclerviewActivityViewModel : ViewModel() {
 
@@ -37,7 +38,7 @@ class RecyclerviewActivityViewModel : ViewModel() {
     private val userDetailHasMap=HashMap<Int,UserReponse>()
 
     fun getPosts(){
-        _mutablePostLiveData.value=Resorces.Loading()
+        _mutablePostLiveData.value= Resorces.Loading()
         viewModelScope.launch (Dispatchers.IO) {
            val list= postRepo.getPost()
             _mutablePostLiveData.postValue(list)
@@ -62,7 +63,7 @@ class RecyclerviewActivityViewModel : ViewModel() {
    private fun getImage(postImageRequest: PostImageRequest){
         viewModelScope.launch (Dispatchers.Default){
 
-            val digest=Util.toHexString(Util.getSHA(postImageRequest.postTitle.replace(" ","")))
+            val digest= Util.toHexString(Util.getSHA(postImageRequest.postTitle.replace(" ", "")))
           val imageUrl= postRepo.getPostImage(digest.toString())
             Log("image url ${imageUrl}")
             val oldPost= postListUiData.get(postImageRequest.currentPostionInRecylerView)
@@ -91,7 +92,7 @@ class RecyclerviewActivityViewModel : ViewModel() {
                    val reponse= userRepo.getUserDetail(userDetailRequest)
 
                    when(reponse){
-                       is Resorces.Success->{
+                       is Resorces.Success ->{
 
                            val userResponse=  reponse.data
 

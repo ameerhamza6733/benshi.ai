@@ -1,11 +1,11 @@
-package com.example.mylibrary
+package com.example.mylibrary.adupters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mylibrary.databinding.EachRowPostBinding
+import com.example.mylibrary.viewModel.RecyclerviewActivityViewModel
 
 class PostRecyclerviewAdapter(val viewModel: RecyclerviewActivityViewModel) :
     RecyclerView.Adapter<PostRecyclerviewAdapter.ViewHolder>() {
@@ -26,13 +26,13 @@ class PostRecyclerviewAdapter(val viewModel: RecyclerviewActivityViewModel) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): PostRecyclerviewAdapter.ViewHolder {
+    ): ViewHolder {
         val binding =
             EachRowPostBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: PostRecyclerviewAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind()
 
         viewModel.onRecyclerViewStateIdeal(holder.adapterPosition)

@@ -4,7 +4,7 @@
 
     <application>
         <activity
-            android:name=".RecyclerViewActivity"
+            android:name=".activitys.RecyclerViewActivity"
             android:exported="false" />
     </application>
 

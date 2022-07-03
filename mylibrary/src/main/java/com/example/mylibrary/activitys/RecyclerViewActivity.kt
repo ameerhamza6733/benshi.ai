@@ -1,19 +1,21 @@
-package com.example.mylibrary
+package com.example.mylibrary.activitys
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mylibrary.*
+import com.example.mylibrary.adupters.PostRecyclerviewAdapter
 import com.example.mylibrary.databinding.ActivityRecylerViewBinding
-import kotlin.math.log
+import com.example.mylibrary.viewModel.RecyclerviewActivityViewModel
 
 class RecyclerViewActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<RecyclerviewActivityViewModel> ()
     private lateinit var binding:ActivityRecylerViewBinding
     private lateinit var linearLayoutManager:LinearLayoutManager
-    private  var postApter:PostRecyclerviewAdapter?=null
+    private  var postApter: PostRecyclerviewAdapter?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +46,10 @@ class RecyclerViewActivity : AppCompatActivity() {
                     binding.recyclerViewPost.scrollLis(linearLayoutManager,viewModel)
                     binding.progress.visibility= View.INVISIBLE
                 }
-                is Resorces.Loading->{
+                is Resorces.Loading ->{
                     binding.progress.visibility= View.VISIBLE
                 }
-                is Resorces.Error->{
+                is Resorces.Error ->{
 
                 }
             }
@@ -55,7 +57,7 @@ class RecyclerViewActivity : AppCompatActivity() {
 
         viewModel.postImageResponseLiveData.observe(this,{
             when(it){
-                is Resorces.Success->{
+                is Resorces.Success ->{
                     postApter?.notifyItemChanged(it.data.currentPostionInRecylerView)
                 }
             }
@@ -63,10 +65,10 @@ class RecyclerViewActivity : AppCompatActivity() {
 
         viewModel.userDetailResponseLiveData.observe(this,{
             when(it){
-               is Resorces.Success->{
+               is Resorces.Success ->{
                    postApter!!.notifyItemChanged(it.data.currentPositionInRecyclerView)
                }
-                is Resorces.Error->{
+                is Resorces.Error ->{
                     Log("error while loading user detail ${it.errorMessage.toString()}")
                 }
             }
