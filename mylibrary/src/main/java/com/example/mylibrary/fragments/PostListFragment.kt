@@ -24,6 +24,8 @@ class PostListFragment : BaseFragment(R.layout.fragment_post_list) {
 
     override fun initObserver() {
         super.initObserver()
+
+
         viewModel.postListLiveData.observe(this) {
             when (it) {
                 is Resorces.Success -> {

@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.mylibrary.activitys.RecyclerViewActivity;
+import com.example.mylibrary.activitys.BenShiActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.libary).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, RecyclerViewActivity.class));
+                startActivity(new Intent(MainActivity.this, BenShiActivity.class));
                 finish();
             }
         });

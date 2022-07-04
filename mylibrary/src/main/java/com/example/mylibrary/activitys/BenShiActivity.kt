@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.osmdroid.config.Configuration
 
 @AndroidEntryPoint
-class RecyclerViewActivity : AppCompatActivity() {
+class BenShiActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<PostListFragmentViewModel>()
     private lateinit var binding: ActivityRecylerViewBinding
