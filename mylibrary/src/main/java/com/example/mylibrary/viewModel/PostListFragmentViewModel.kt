@@ -18,6 +18,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
 
 @HiltViewModel
 class PostListFragmentViewModel  @Inject constructor(private val postRepo:PostRepo,
@@ -86,7 +87,7 @@ class PostListFragmentViewModel  @Inject constructor(private val postRepo:PostRe
     }
 
    private fun getUserDetail(userDetailRequest: UserDetailRequest){
-
+       Log("get user detail ${userDetailRequest.userId}")
            if (userDetailHasMap.containsKey(userDetailRequest.userId)){
                //we already have user detail
                _mutableAuthorLiveData.postValue(Resorces.Success(userDetailHasMap[userDetailRequest.userId]!!))

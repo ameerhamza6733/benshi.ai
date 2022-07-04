@@ -12,10 +12,10 @@ fun RecyclerView.scrollLis(layoutManager: LinearLayoutManager,viewModel: PostLis
                 // Do something
             } else if (newState ==  RecyclerView.SCROLL_STATE_IDLE) {
                 // Do something
-//                viewModel.onRecyclerViewStateIdeal(layoutManager.findFirstCompletelyVisibleItemPosition())
-//                viewModel.onRecyclerViewStateIdeal(layoutManager.findLastCompletelyVisibleItemPosition())
-//                viewModel.onRecyclerViewStateIdeal(layoutManager.findFirstVisibleItemPosition())
-//                viewModel.onRecyclerViewStateIdeal(layoutManager.findLastVisibleItemPosition())
+                viewModel.onRecyclerViewBind(layoutManager.findFirstCompletelyVisibleItemPosition())
+                viewModel.onRecyclerViewBind(layoutManager.findLastCompletelyVisibleItemPosition())
+                viewModel.onRecyclerViewBind(layoutManager.findFirstVisibleItemPosition())
+                viewModel.onRecyclerViewBind(layoutManager.findLastVisibleItemPosition())
 
             } else {
                 // Do something

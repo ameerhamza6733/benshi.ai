@@ -11,14 +11,13 @@ import com.example.mylibrary.model.ui.PostUi
 import com.example.mylibrary.viewModel.PostListFragmentViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
-import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PostListFragment : BaseFragment(R.layout.fragment_post_list) {
 
-    private val viewModel by viewModels<PostListFragmentViewModel> ()
-    private val binding by viewBinding (FragmentPostListBinding::bind)
+    private val viewModel by viewModels<PostListFragmentViewModel>()
+    private val binding by viewBinding(FragmentPostListBinding::bind)
 
     private lateinit var linearLayoutManager: LinearLayoutManager
     private var postApter: PostRecyclerviewAdapter? = null
@@ -28,13 +27,17 @@ class PostListFragment : BaseFragment(R.layout.fragment_post_list) {
         viewModel.postListLiveData.observe(this) {
             when (it) {
                 is Resorces.Success -> {
-
-                    viewModel.postListUiData = it.data
+                    Log("post list live data success")
+                    viewModel.postListUiData =
+                        it.data // we can skip  viewModel.postListUiData =it.data if we don't need to modify list view date but in this case the image author name was added to list
 
                     linearLayoutManager = LinearLayoutManager(requireActivity())
-                    postApter = PostRecyclerviewAdapter(viewModel){
+                    postApter = PostRecyclerviewAdapter(viewModel.postListUiData, onBind = { pos ->
+                        viewModel.onRecyclerViewBind(pos)
+                    }, onItemClicked = {
                         openDetailPage(viewModel.postListUiData[it])
-                    }
+                    })
+                    postApter?.setHasStableIds(true)
                     binding.recyclerViewPost.layoutManager = linearLayoutManager
                     binding.recyclerViewPost.adapter = postApter
                     binding.recyclerViewPost.scrollLis(linearLayoutManager, viewModel)
@@ -69,6 +72,9 @@ class PostListFragment : BaseFragment(R.layout.fragment_post_list) {
                 is Resorces.Success -> {
                     postApter?.notifyItemChanged(it.data.currentPostionInRecylerView)
                 }
+                is Resorces.Error->{
+                    Log("")
+                }
                 else -> {
 
                 }
@@ -84,20 +90,16 @@ class PostListFragment : BaseFragment(R.layout.fragment_post_list) {
 
                 }
                 is Resorces.Error -> {
-                    binding.progress.visibility = View.INVISIBLE
+                    Log(" error user not ${it.errorMessage}")
                 }
             }
         }
     }
 
     private fun openDetailPage(postUi: PostUi) {
-        postUi.author?.address?.geo?.apply {
-            this.lat="31.4573521"
-            this.lng="74.3000763"
-        }
-       findNavController().navigate(R.id.action_postListFragment_to_detailFragment)
 
-        activtyViewModel.dataPostListToDetailFragment.value=postUi
-       }
+        findNavController().navigate(R.id.action_postListFragment_to_detailFragment)
+        activtyViewModel.dataPostListToDetailFragment.value = postUi
+    }
 
 }

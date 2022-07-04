@@ -7,7 +7,7 @@
     <ImageView
         android:scaleType="centerCrop"
         android:id="@+id/postImage"
-        android:layout_width="400dp"
+        android:layout_width="0dp"
         android:layout_height="250dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -22,7 +22,7 @@ object ApiServiceModule {
     fun provideApiService(
     ): RetrofitApiInterface {
         val interceptor = HttpLoggingInterceptor()
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC)
         val client: OkHttpClient = OkHttpClient.Builder().addInterceptor(interceptor)
             .callTimeout(unit = TimeUnit.SECONDS, timeout = 30)
             .retryOnConnectionFailure(true)
