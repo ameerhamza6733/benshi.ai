@@ -2,9 +2,9 @@ package com.example.mylibrary
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mylibrary.viewModel.RecyclerviewActivityViewModel
+import com.example.mylibrary.viewModel.PostListFragmentViewModel
 
-fun RecyclerView.scrollLis(layoutManager: LinearLayoutManager,viewModel: RecyclerviewActivityViewModel){
+fun RecyclerView.scrollLis(layoutManager: LinearLayoutManager,viewModel: PostListFragmentViewModel){
     this.addOnScrollListener(object :RecyclerView.OnScrollListener(){
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)

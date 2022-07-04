@@ -14,13 +14,14 @@ import com.example.mylibrary.model.request.UserDetailRequest
 import com.example.mylibrary.model.ui.PostUi
 import com.example.mylibrary.repository.PostRepo
 import com.example.mylibrary.repository.UserRepo
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RecyclerviewActivityViewModel : ViewModel() {
-
-    private val postRepo= PostRepo()
-    private val userRepo=UserRepo()
+@HiltViewModel
+class PostListFragmentViewModel  @Inject constructor(private val postRepo:PostRepo,
+                                                     private val userRepo:UserRepo): ViewModel() {
 
     private val _mutableAuthorLiveData:MutableLiveData<Resorces<UserReponse>> = MutableLiveData()
     val userDetailResponseLiveData:LiveData<Resorces<UserReponse>> =_mutableAuthorLiveData
@@ -37,6 +38,10 @@ class RecyclerviewActivityViewModel : ViewModel() {
     //this can be store in local database
     private val userDetailHasMap=HashMap<Int,UserReponse>()
 
+    init {
+        getPosts()
+    }
+
     fun getPosts(){
         _mutablePostLiveData.value= Resorces.Loading()
         viewModelScope.launch (Dispatchers.IO) {
@@ -47,7 +52,7 @@ class RecyclerviewActivityViewModel : ViewModel() {
 
     }
 
-    fun onRecyclerViewStateIdeal(itemPosition:Int){
+    fun onRecyclerViewBind(itemPosition:Int){
         if (itemPosition>=0){
             if (postListUiData[itemPosition].author==null){
                 getUserDetail(UserDetailRequest(userId = postListUiData[itemPosition].userId).also { it.currentPostionInRecylerView=itemPosition })
@@ -64,9 +69,9 @@ class RecyclerviewActivityViewModel : ViewModel() {
         viewModelScope.launch (Dispatchers.Default){
 
             val digest= Util.toHexString(Util.getSHA(postImageRequest.postTitle.replace(" ", "")))
-          val imageUrl= postRepo.getPostImage(digest.toString())
-            Log("image url ${imageUrl}")
+            val imageUrl= postRepo.getPostImage(digest.toString())
             val oldPost= postListUiData.get(postImageRequest.currentPostionInRecylerView)
+
             oldPost.postImageUrl=imageUrl
             postListUiData.set(postImageRequest.currentPostionInRecylerView,oldPost)
 

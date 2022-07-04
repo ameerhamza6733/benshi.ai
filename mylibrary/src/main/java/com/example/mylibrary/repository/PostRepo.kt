@@ -3,10 +3,11 @@ package com.example.mylibrary.repository
 import com.example.mylibrary.Resorces
 import com.example.mylibrary.model.request.CommentPostRequest
 import com.example.mylibrary.model.ui.PostUi
-import com.example.mylibrary.network.RetrofitClint
+import com.example.mylibrary.network.RetrofitApiInterface
+import javax.inject.Inject
 
-class PostRepo {
-    val api=RetrofitClint.getInstant()
+class PostRepo @Inject constructor( val api:RetrofitApiInterface) {
+
 
     suspend fun getPost(): Resorces<ArrayList<PostUi>> {
      return try {

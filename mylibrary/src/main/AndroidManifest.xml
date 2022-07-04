@@ -2,10 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.mylibrary">
 
-    <application>
-        <activity
-            android:name=".activitys.RecyclerViewActivity"
-            android:exported="false" />
+    <application android:name=".BenshiApplication">
+
     </application>
 
 </manifest>

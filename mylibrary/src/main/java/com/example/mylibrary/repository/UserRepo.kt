@@ -3,12 +3,12 @@ package com.example.mylibrary.repository
 import com.example.example.UserReponse
 import com.example.mylibrary.Resorces
 import com.example.mylibrary.model.request.UserDetailRequest
-import com.example.mylibrary.network.RetrofitClint
+import com.example.mylibrary.network.RetrofitApiInterface
+import javax.inject.Inject
 
-class UserRepo {
-    val api= RetrofitClint.getInstant()
+class UserRepo @Inject constructor( private val api:RetrofitApiInterface) {
+
     suspend fun getUserDetail(userDetailRequest: UserDetailRequest): Resorces<UserReponse> {
-
 
        return try {
             val userDetailsReponse=  api.getUserDetail(userDetailRequest.userId)
