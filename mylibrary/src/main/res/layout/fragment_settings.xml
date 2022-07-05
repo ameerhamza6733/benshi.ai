@@ -13,7 +13,7 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"/>
     <Button
-        android:text="Email"
+        android:text="set email"
         android:id="@+id/btSaveEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
