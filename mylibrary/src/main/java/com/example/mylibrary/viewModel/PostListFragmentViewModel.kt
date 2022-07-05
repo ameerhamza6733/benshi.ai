@@ -38,6 +38,7 @@ class PostListFragmentViewModel  @Inject constructor(private val postRepo:PostRe
     lateinit var postListUiData:ArrayList<PostUi>
     //this can be store in local database
     private val userDetailHasMap=HashMap<Int,UserReponse>()
+    private val postCommentHashMap=HashMap<Int,Any>()
 
     init {
         getPosts()
@@ -62,6 +63,10 @@ class PostListFragmentViewModel  @Inject constructor(private val postRepo:PostRe
                 getImage(PostImageRequest(postListUiData[itemPosition].title).also { it.currentPostionInRecylerView=itemPosition })
 
             }
+            if (postListUiData[itemPosition].comments==0){
+             val commentPostRequest=  CommentPostRequest(postListUiData[itemPosition].id).also { it.currentPostionInRecylerView=itemPosition }
+                getPostComments(commentPostRequest)
+            }
 
         }
     }
@@ -69,8 +74,7 @@ class PostListFragmentViewModel  @Inject constructor(private val postRepo:PostRe
    private fun getImage(postImageRequest: PostImageRequest){
         viewModelScope.launch (Dispatchers.Default){
 
-            val digest= Util.toHexString(Util.getSHA(postImageRequest.postTitle.replace(" ", "")))
-            val imageUrl= postRepo.getPostImage(digest.toString())
+            val imageUrl= postRepo.getPostImage(postImageRequest)
             val oldPost= postListUiData.get(postImageRequest.currentPostionInRecylerView)
 
             oldPost.postImageUrl=imageUrl

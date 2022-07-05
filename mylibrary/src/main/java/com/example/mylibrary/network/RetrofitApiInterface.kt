@@ -1,10 +1,12 @@
 package com.example.mylibrary.network
 
+import com.example.example.CommentReponse
 import com.example.example.UserReponse
 import com.example.mylibrary.model.ui.PostUi
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface RetrofitApiInterface {
@@ -14,8 +16,8 @@ interface RetrofitApiInterface {
     @GET("users/{userid}")
     suspend fun getUserDetail(@Path("userid")userid:Int):Response<UserReponse>
 
-    @GET("comments/{post_id}")
-    suspend fun getPostComments(@Path("post_id")post_id:Int):Response<Any>
+    @GET("comments")
+    suspend fun getPostComments(@Query("postId")post_id:Int):Response<List<CommentReponse>>
 
 
 }
