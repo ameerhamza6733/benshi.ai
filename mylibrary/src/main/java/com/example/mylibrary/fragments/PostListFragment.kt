@@ -103,7 +103,7 @@ class PostListFragment  : BaseFragment(R.layout.fragment_post_list) {
                     postApter?.notifyItemChanged(it.data.currentPostionInRecylerView)
                 }
                 is Resorces.Error->{
-                    Log("")
+
                 }
                 else -> {
 
@@ -115,6 +115,12 @@ class PostListFragment  : BaseFragment(R.layout.fragment_post_list) {
             when(it){
                 is Resorces.Success->{
                     postApter?.notifyItemChanged(it.data.currentPositionInRecyclerView)
+                }
+                is Resorces.Loading->{
+
+                }
+                is Resorces.Error->{
+                    //fail to load comment count , will retry again once xyz post visible again
                 }
 
             }
@@ -129,6 +135,8 @@ class PostListFragment  : BaseFragment(R.layout.fragment_post_list) {
 
                 }
                 is Resorces.Error -> {
+                    //fail to load user data  , will retry again once xyz post visible again
+
                     Log(" error user not ${it.errorMessage}")
                 }
             }
