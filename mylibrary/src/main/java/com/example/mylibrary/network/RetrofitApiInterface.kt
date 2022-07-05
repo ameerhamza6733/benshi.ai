@@ -1,13 +1,13 @@
 package com.example.mylibrary.network
 
-import com.example.example.CommentReponse
-import com.example.example.UserReponse
+import com.example.mylibrary.model.commentReponse.CommentReponse
+import com.example.mylibrary.model.ui.CommetReponseUI
+import com.example.mylibrary.model.userReponse.UserReponse
 import com.example.mylibrary.model.ui.PostUi
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import retrofit2.http.Url
 
 interface RetrofitApiInterface {
     @GET("posts")

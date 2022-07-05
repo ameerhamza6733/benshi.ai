@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mylibrary.*
 import com.example.mylibrary.adupters.PostRecyclerviewAdapter
 import com.example.mylibrary.databinding.FragmentPostListBinding
+import com.example.mylibrary.model.ui.PostDetailUi
 import com.example.mylibrary.model.ui.PostUi
 import com.example.mylibrary.viewModel.PostListFragmentViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -37,9 +38,10 @@ class PostListFragment : BaseFragment(R.layout.fragment_post_list) {
                     postApter = PostRecyclerviewAdapter(viewModel.postListUiData, onBind = { pos ->
                         viewModel.onRecyclerViewBind(pos)
                     }, onItemClicked = {
-                        openDetailPage(viewModel.postListUiData[it])
+                        openDetailPage(viewModel.postListUiData[it],it)
                     })
                     postApter?.setHasStableIds(true)
+                    binding.recyclerViewPost.itemAnimator?.changeDuration=0
                     binding.recyclerViewPost.layoutManager = linearLayoutManager
                     binding.recyclerViewPost.adapter = postApter
                     binding.recyclerViewPost.scrollLis(linearLayoutManager, viewModel)
@@ -83,6 +85,15 @@ class PostListFragment : BaseFragment(R.layout.fragment_post_list) {
             }
         }
 
+        viewModel.liveDataCommentReponse.observe(this){
+            when(it){
+                is Resorces.Success->{
+                    postApter?.notifyItemChanged(it.data.currentPositionInRecyclerView)
+                }
+
+            }
+        }
+
         viewModel.userDetailResponseLiveData.observe(this) {
             when (it) {
                 is Resorces.Success -> {
@@ -98,10 +109,10 @@ class PostListFragment : BaseFragment(R.layout.fragment_post_list) {
         }
     }
 
-    private fun openDetailPage(postUi: PostUi) {
+    private fun openDetailPage(postUi: PostUi,itemClick:Int) {
 
         findNavController().navigate(R.id.action_postListFragment_to_detailFragment)
-        activtyViewModel.dataPostListToDetailFragment.value = postUi
+        activtyViewModel.dataPostListToDetailFragment.value = PostDetailUi(postUi,viewModel.postCommentHashMap[postUi.id])
     }
 
 }

@@ -1,5 +1,7 @@
-package com.example.example
+package com.example.mylibrary.model.userReponse
 
+import com.example.mylibrary.model.userReponse.Address
+import com.example.mylibrary.model.userReponse.Company
 import com.google.gson.annotations.SerializedName
 
 

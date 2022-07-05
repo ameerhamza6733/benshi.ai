@@ -4,13 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.example.UserReponse
+import com.example.mylibrary.model.commentReponse.CommentReponse
+import com.example.mylibrary.model.userReponse.UserReponse
 import com.example.mylibrary.Log
 import com.example.mylibrary.Resorces
-import com.example.mylibrary.Util
 import com.example.mylibrary.model.request.CommentPostRequest
 import com.example.mylibrary.model.request.PostImageRequest
 import com.example.mylibrary.model.request.UserDetailRequest
+import com.example.mylibrary.model.ui.CommetReponseUI
 import com.example.mylibrary.model.ui.PostUi
 import com.example.mylibrary.repository.PostRepo
 import com.example.mylibrary.repository.UserRepo
@@ -18,7 +19,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.log
 
 @HiltViewModel
 class PostListFragmentViewModel  @Inject constructor(private val postRepo:PostRepo,
@@ -34,11 +34,15 @@ class PostListFragmentViewModel  @Inject constructor(private val postRepo:PostRe
     private val _mutablePostLiveData:MutableLiveData<Resorces<ArrayList<PostUi>>> = MutableLiveData()
     val postListLiveData:LiveData<Resorces<ArrayList<PostUi>>> = _mutablePostLiveData
 
+
+    private val _mutableCommentsLiveData:MutableLiveData<Resorces<CommetReponseUI>> = MutableLiveData()
+    val liveDataCommentReponse:LiveData<Resorces<CommetReponseUI>> = _mutableCommentsLiveData
+
     //this will be used in PostRecylerviewAdupter.class
     lateinit var postListUiData:ArrayList<PostUi>
     //this can be store in local database
-    private val userDetailHasMap=HashMap<Int,UserReponse>()
-    private val postCommentHashMap=HashMap<Int,Any>()
+    val userDetailHasMap=HashMap<Int, UserReponse>()
+    val postCommentHashMap=HashMap<Int,List<CommentReponse>>()
 
     init {
         getPosts()
@@ -87,6 +91,24 @@ class PostListFragmentViewModel  @Inject constructor(private val postRepo:PostRe
   private  fun getPostComments(commentPostRequest: CommentPostRequest){
         viewModelScope.launch (Dispatchers.IO){
             val reponse=postRepo.getComment(commentPostRequest)
+            //we can do batter if we save this into room data base  in repo class and make changes in post table there
+            when(reponse){
+                is Resorces.Success ->{
+
+                    val commentListReponse=  reponse.data.postCommentList
+
+
+                    val post= postListUiData.get(commentPostRequest!!.currentPostionInRecylerView)
+                    post.comments=commentListReponse.size
+                    postListUiData.set(commentPostRequest!!.currentPostionInRecylerView,post)
+                    postCommentHashMap.put(post.id,commentListReponse)
+                    _mutableCommentsLiveData.postValue(reponse)
+                }else->{
+                _mutableCommentsLiveData.postValue(reponse)
+                }
+            }
+
+
         }
     }
 

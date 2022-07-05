@@ -1,6 +1,6 @@
 package com.example.mylibrary.repository
 
-import com.example.example.UserReponse
+import com.example.mylibrary.model.userReponse.UserReponse
 import com.example.mylibrary.Resorces
 import com.example.mylibrary.model.request.UserDetailRequest
 import com.example.mylibrary.network.RetrofitApiInterface
