@@ -1,5 +1,6 @@
 package com.example.mylibrary.fragments
 
+import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -7,21 +8,35 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mylibrary.*
 import com.example.mylibrary.adupters.PostRecyclerviewAdapter
 import com.example.mylibrary.databinding.FragmentPostListBinding
+import com.example.mylibrary.model.EventByUser
+import com.example.mylibrary.model.local.Events
 import com.example.mylibrary.model.ui.PostDetailUi
 import com.example.mylibrary.model.ui.PostUi
+import com.example.mylibrary.repository.EventRepo
 import com.example.mylibrary.viewModel.PostListFragmentViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class PostListFragment : BaseFragment(R.layout.fragment_post_list) {
+class PostListFragment  : BaseFragment(R.layout.fragment_post_list) {
+
+    @Inject
+    lateinit var myRepository: EventRepo
 
     private val viewModel by viewModels<PostListFragmentViewModel>()
     private val binding by viewBinding(FragmentPostListBinding::bind)
 
     private lateinit var linearLayoutManager: LinearLayoutManager
     private var postApter: PostRecyclerviewAdapter? = null
+
+    override fun initViews() {
+        super.initViews()
+        binding.btSettings.setOnClickListener {
+            findNavController().navigate(R.id.action_postListFragment_to_settingsFragment)
+        }
+    }
 
     override fun initObserver() {
         super.initObserver()

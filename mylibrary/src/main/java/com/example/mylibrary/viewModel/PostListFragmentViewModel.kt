@@ -15,6 +15,7 @@ import com.example.mylibrary.model.ui.CommetReponseUI
 import com.example.mylibrary.model.ui.PostUi
 import com.example.mylibrary.repository.PostRepo
 import com.example.mylibrary.repository.UserRepo
+import com.example.mylibrary.room.EventDataBase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,7 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PostListFragmentViewModel  @Inject constructor(private val postRepo:PostRepo,
-                                                     private val userRepo:UserRepo): ViewModel() {
+                                                     private val userRepo:UserRepo,
+private val datbase : EventDataBase): ViewModel() {
 
     private val _mutableAuthorLiveData:MutableLiveData<Resorces<UserReponse>> = MutableLiveData()
     val userDetailResponseLiveData:LiveData<Resorces<UserReponse>> =_mutableAuthorLiveData

@@ -13,11 +13,19 @@
         <action
             android:id="@+id/action_postListFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_postListFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.mylibrary.fragments.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.mylibrary.fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 
 </navigation>

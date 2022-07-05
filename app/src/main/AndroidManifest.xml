@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.mylibrary.activitys.BenShiActivity"/>
+        <activity android:name="com.example.mylibrary.activitys.OpenEmailActivity"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="" />

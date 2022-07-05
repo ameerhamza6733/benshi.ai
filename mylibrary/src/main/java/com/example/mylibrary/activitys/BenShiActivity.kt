@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.mylibrary.R
 import com.example.mylibrary.databinding.ActivityRecylerViewBinding
 import com.example.mylibrary.fragments.PostListFragment
 import com.example.mylibrary.viewModel.PostListFragmentViewModel
+import com.example.mylibrary.workers.SendEmailWorker
 import dagger.hilt.android.AndroidEntryPoint
 import org.osmdroid.config.Configuration
 
@@ -28,7 +31,12 @@ class BenShiActivity : AppCompatActivity() {
     }
 
 
+    override fun onStop() {
 
-
+        val sendEmailWorker= OneTimeWorkRequestBuilder<SendEmailWorker>().addTag("sendEami")
+            .build()
+        WorkManager.getInstance(applicationContext).enqueue(sendEmailWorker)
+        super.onStop()
+    }
 
 }
