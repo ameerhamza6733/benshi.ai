@@ -61,6 +61,7 @@ class PostListFragment  : BaseFragment(R.layout.fragment_post_list) {
                         openDetailPage(viewModel.postListUiData[it],it)
                     })
                     postApter?.setHasStableIds(true)
+                    binding.recyclerViewPost.disableItemAnimator()
                     binding.recyclerViewPost.itemAnimator?.changeDuration=0
                     binding.recyclerViewPost.layoutManager = linearLayoutManager
                     binding.recyclerViewPost.adapter = postApter

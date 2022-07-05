@@ -2,6 +2,7 @@ package com.example.mylibrary
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.mylibrary.viewModel.PostListFragmentViewModel
 
 fun RecyclerView.scrollLis(layoutManager: LinearLayoutManager,viewModel: PostListFragmentViewModel,  onScrollEvent: (Int) -> Unit){
@@ -26,4 +27,11 @@ fun RecyclerView.scrollLis(layoutManager: LinearLayoutManager,viewModel: PostLis
 
         }
     })
+
+
+
+
+}
+fun RecyclerView.disableItemAnimator() {
+    (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
 }
