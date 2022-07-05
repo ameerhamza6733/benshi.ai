@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mylibrary.viewModel.PostListFragmentViewModel
 
-fun RecyclerView.scrollLis(layoutManager: LinearLayoutManager,viewModel: PostListFragmentViewModel){
+fun RecyclerView.scrollLis(layoutManager: LinearLayoutManager,viewModel: PostListFragmentViewModel,  onScrollEvent: (Int) -> Unit){
     this.addOnScrollListener(object :RecyclerView.OnScrollListener(){
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
@@ -20,6 +20,8 @@ fun RecyclerView.scrollLis(layoutManager: LinearLayoutManager,viewModel: PostLis
             } else {
                 // Do something
             }
+
+            onScrollEvent(newState)
 
         }
 

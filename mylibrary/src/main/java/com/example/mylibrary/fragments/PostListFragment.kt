@@ -9,6 +9,7 @@ import com.example.mylibrary.*
 import com.example.mylibrary.adupters.PostRecyclerviewAdapter
 import com.example.mylibrary.databinding.FragmentPostListBinding
 import com.example.mylibrary.model.EventByUser
+import com.example.mylibrary.model.Meta
 import com.example.mylibrary.model.local.Events
 import com.example.mylibrary.model.ui.PostDetailUi
 import com.example.mylibrary.model.ui.PostUi
@@ -33,6 +34,10 @@ class PostListFragment  : BaseFragment(R.layout.fragment_post_list) {
 
     override fun initViews() {
         super.initViews()
+        val scrollEvent=EventByUser(EventByUser.TEST_APP_ID,"PostListFragment",EventByUser.ACTION_VIEW,EventByUser.TEST_USER_DEVICE_ID,
+            Meta(System.currentTimeMillis(),Meta.TEST_GPS_LOCATION)
+        )
+        myRepository.saveEvent(scrollEvent)
         binding.btSettings.setOnClickListener {
             findNavController().navigate(R.id.action_postListFragment_to_settingsFragment)
         }
@@ -59,7 +64,12 @@ class PostListFragment  : BaseFragment(R.layout.fragment_post_list) {
                     binding.recyclerViewPost.itemAnimator?.changeDuration=0
                     binding.recyclerViewPost.layoutManager = linearLayoutManager
                     binding.recyclerViewPost.adapter = postApter
-                    binding.recyclerViewPost.scrollLis(linearLayoutManager, viewModel)
+                    binding.recyclerViewPost.scrollLis(linearLayoutManager, viewModel){
+                       val scrollEvent=EventByUser(EventByUser.TEST_APP_ID,"-1","scroll",EventByUser.TEST_USER_DEVICE_ID,
+                           Meta(System.currentTimeMillis(),Meta.TEST_GPS_LOCATION)
+                       )
+                        myRepository.saveEvent(scrollEvent)
+                    }
                     binding.progress.visibility = View.INVISIBLE
                 }
                 is Resorces.Loading -> {
