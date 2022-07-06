@@ -71,6 +71,8 @@ class PostListFragment  : BaseFragment(R.layout.fragment_post_list) {
                        )
                         myRepository.saveEvent(scrollEvent)
                     }
+                    binding.recyclerViewPost.scrollToPosition(viewModel.currentItemClick)
+
                     binding.progress.visibility = View.INVISIBLE
                 }
                 is Resorces.Loading -> {
@@ -144,7 +146,7 @@ class PostListFragment  : BaseFragment(R.layout.fragment_post_list) {
     }
 
     private fun openDetailPage(postUi: PostUi,itemClick:Int) {
-
+        viewModel.currentItemClick=itemClick
         findNavController().navigate(R.id.action_postListFragment_to_detailFragment)
         activtyViewModel.dataPostListToDetailFragment.value = PostDetailUi(postUi,viewModel.postCommentHashMap[postUi.id])
     }

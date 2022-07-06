@@ -26,6 +26,7 @@ class PostListFragmentViewModel  @Inject constructor(private val postRepo:PostRe
                                                      private val userRepo:UserRepo,
 private val datbase : EventDataBase): ViewModel() {
 
+    var currentItemClick: Int=0
     private val _mutableAuthorLiveData:MutableLiveData<Resorces<UserReponse>> = MutableLiveData()
     val userDetailResponseLiveData:LiveData<Resorces<UserReponse>> =_mutableAuthorLiveData
 
@@ -118,7 +119,14 @@ private val datbase : EventDataBase): ViewModel() {
        Log("get user detail ${userDetailRequest.userId}")
            if (userDetailHasMap.containsKey(userDetailRequest.userId)){
                //we already have user detail
-               _mutableAuthorLiveData.postValue(Resorces.Success(userDetailHasMap[userDetailRequest.userId]!!))
+                   Log("user founded in cache ${userDetailHasMap[userDetailRequest.userId]!!.name}")
+               val oldPost= postListUiData.get(userDetailRequest!!.currentPostionInRecylerView)
+               oldPost.author=userDetailHasMap[userDetailRequest.userId]!!
+               postListUiData.set(userDetailRequest!!.currentPostionInRecylerView,oldPost)
+              val reponse= userDetailHasMap[userDetailRequest.userId]!!.apply {
+                   this.currentPositionInRecyclerView=userDetailRequest.currentPostionInRecylerView
+               }
+               _mutableAuthorLiveData.postValue(Resorces.Success(reponse))
 
            }else{
                viewModelScope.launch (Dispatchers.IO){
