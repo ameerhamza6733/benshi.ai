@@ -18,6 +18,7 @@ import com.example.mylibrary.databinding.FragmentDetailBinding
 import com.example.mylibrary.model.EventByUser
 import com.example.mylibrary.model.Meta
 import com.example.mylibrary.model.request.CommentPostRequest
+import com.example.mylibrary.model.request.UserDetailRequest
 import com.example.mylibrary.repository.EventRepo
 import com.example.mylibrary.viewModel.DetailFragmentViewModel
 import com.google.android.gms.maps.GoogleMap
@@ -76,8 +77,29 @@ class DetailFragment : BaseFragment(R.layout.fragment_detail), OnMapReadyCallbac
                 if (postDetail.commentList==null || postDetail.commentList?.isEmpty()==true){
                     viewModel.getPostComments(CommentPostRequest(postDetail.postUi.id))
                 }
+
+                if (postDetail.postUi.author==null){
+                    viewModel.getUserDetail(UserDetailRequest(postDetail.postUi.userId))
+                }
             }
         }
+
+        viewModel.userDetailResponseLiveData.observe(this,{
+            when(it){
+                is Resorces.Success->{
+                    binding.progress.visibility=View.INVISIBLE
+                    postDetailAdupter?.postDetailUi?.postUi?.author=it.data
+                    postDetailAdupter?.notifyDataSetChanged()
+                }
+                is Resorces.Error->{
+                    binding.progress.visibility=View.INVISIBLE
+                    Toast.makeText(activity!!,"error while loaidng user data",Toast.LENGTH_LONG).show()
+                }
+                is Resorces.Loading->{
+                    binding.progress.visibility=View.VISIBLE
+                }
+            }
+        })
 
         viewModel.liveDataCommentReponse.observe(this,{
             when(it){

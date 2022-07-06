@@ -18,6 +18,7 @@ import com.example.mylibrary.repository.UserRepo
 import com.example.mylibrary.room.EventDataBase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -70,7 +71,7 @@ private val datbase : EventDataBase): ViewModel() {
                 getImage(PostImageRequest(postListUiData[itemPosition].title).also { it.currentPostionInRecylerView=itemPosition })
 
             }
-            if (postListUiData[itemPosition].comments==0){
+            if (postListUiData[itemPosition].comments==null){
              val commentPostRequest=  CommentPostRequest(postListUiData[itemPosition].id).also { it.currentPostionInRecylerView=itemPosition }
                 getPostComments(commentPostRequest)
             }
@@ -127,7 +128,6 @@ private val datbase : EventDataBase): ViewModel() {
                    this.currentPositionInRecyclerView=userDetailRequest.currentPostionInRecylerView
                }
                _mutableAuthorLiveData.postValue(Resorces.Success(reponse))
-
            }else{
                viewModelScope.launch (Dispatchers.IO){
 

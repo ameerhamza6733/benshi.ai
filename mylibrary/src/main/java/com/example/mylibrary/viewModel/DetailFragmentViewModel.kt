@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mylibrary.Resorces
 import com.example.mylibrary.model.request.CommentPostRequest
+import com.example.mylibrary.model.request.UserDetailRequest
 import com.example.mylibrary.model.ui.CommetReponseUI
+import com.example.mylibrary.model.userReponse.UserReponse
 import com.example.mylibrary.repository.PostRepo
 import com.example.mylibrary.repository.UserRepo
 import com.example.mylibrary.room.EventDataBase
@@ -23,7 +25,18 @@ class DetailFragmentViewModel @Inject constructor(private val postRepo: PostRepo
     val liveDataCommentReponse: LiveData<Resorces<CommetReponseUI>> = _mutableCommentsLiveData
 
 
-      fun getPostComments(commentPostRequest: CommentPostRequest){
+    private val _mutableAuthorLiveData:MutableLiveData<Resorces<UserReponse>> = MutableLiveData()
+    val userDetailResponseLiveData:LiveData<Resorces<UserReponse>> =_mutableAuthorLiveData
+
+
+    fun getUserDetail(userDetailRequest: UserDetailRequest){
+        viewModelScope.launch (Dispatchers.IO){
+
+            _mutableAuthorLiveData.postValue(userRepo.getUserDetail(userDetailRequest))
+        }
+    }
+
+    fun getPostComments(commentPostRequest: CommentPostRequest){
           _mutableCommentsLiveData.postValue(Resorces.Loading())
         viewModelScope.launch (Dispatchers.IO){
             val reponse=postRepo.getComment(commentPostRequest)

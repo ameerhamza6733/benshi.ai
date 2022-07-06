@@ -16,12 +16,15 @@ open class PostRecyclerviewAdapter(val postListUiData: List<PostUi>, private val
         fun bind() = binding.apply {
             val post=postListUiData[adapterPosition]
 
-            post.postImageUrl?.let {
-                Glide.with(binding.postImage).asBitmap().apply(RequestOptions.centerCropTransform()).load(it).into(binding.postImage)
+            if (post.postImageUrl==null){
+                Glide.with(binding.postImage).asBitmap().apply(RequestOptions.centerCropTransform()).load("").into(binding.postImage)
+
+            }else{
+                Glide.with(binding.postImage).asBitmap().apply(RequestOptions.centerCropTransform()).load( post.postImageUrl).into(binding.postImage)
+
             }
-            post.author?.name?.let {
-                binding.postAuthor.text=it
-            }
+
+            binding.postAuthor.text=post.author?.name
             binding.postTitle.text=post.title
             binding.postDescription.text=post.body
 
